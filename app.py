@@ -18,6 +18,7 @@ Based on the original version, with targeted fixes for:
                    so it adds presence without adding noise.
 """
 
+import os
 import warnings, logging
 
 # Silence noisy third-party loggers BEFORE any import
@@ -45,7 +46,7 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024 * 1024
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return jsonify({"error": "gog og go"}), 500
 
 
 @app.route("/app/api/process", methods=["POST"])
@@ -55,11 +56,11 @@ def process_image():
 # def process_image():
 
 
-@app.route("/api/download/<sheet_id>")
-def download_sheet(sheet_id):
-    return send_from_directory(OUTPUT_FOLDER, f"sheet_{sheet_id}.jpg",
-                               as_attachment=True,
-                               download_name="id_photos.jpg")
+# @app.route("/api/download/<sheet_id>")
+# def download_sheet(sheet_id):
+#     return send_from_directory(OUTPUT_FOLDER, f"sheet_{sheet_id}.jpg",
+#                                as_attachment=True,
+#                                download_name="id_photos.jpg")
 
 
 if __name__ == "__main__":
@@ -67,4 +68,6 @@ if __name__ == "__main__":
     print("  ────────────────────────────────────")
     print("Server Started ..")
     # print("  Press Ctrl+C to stop.\n")
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    # app.run(debug=True, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
