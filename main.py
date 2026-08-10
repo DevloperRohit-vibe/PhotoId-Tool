@@ -585,7 +585,7 @@ def process_image():
     try:
         data = request.get_json(force=True)
         # api_key = request.headers.get("API-KEY")
-        if request.headers.get("API-KEY") != os.getenv("API_KEY"):
+        if request.headers.get("API-KEY") != os.environ("API_KEY"):
             print("  [AUTH] Invalid API key")
             return jsonify({"error": "Invalid API key"}), 401
         print("  [AUTH] API key validated")
