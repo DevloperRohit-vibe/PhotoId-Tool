@@ -6,22 +6,22 @@ import numpy as np
 
 
 # Rembg Session
-_REMBG_SESSION = None
+# _REMBG_SESSION = None
 
-def _load_rembg():
-    global _REMBG_SESSION
-    try:
-        dn = open(os.devnull, "w")
-        with contextlib.redirect_stdout(dn), contextlib.redirect_stderr(dn):
-            from rembg import new_session
-            _REMBG_SESSION = new_session("u2net")
-        dn.close()
-        print("✓  rembg ready (AI background removal active)", flush=True)
-    except Exception as e:
-        print(f"ℹ  rembg not available ({type(e).__name__}) — GrabCut fallback active",
-              flush=True)
+# def _load_rembg():
+#     global _REMBG_SESSION
+#     try:
+#         dn = open(os.devnull, "w")
+#         with contextlib.redirect_stdout(dn), contextlib.redirect_stderr(dn):
+#             from rembg import new_session
+#             _REMBG_SESSION = new_session("u2net")
+#         dn.close()
+#         print("✓  rembg ready (AI background removal active)", flush=True)
+#     except Exception as e:
+#         print(f"ℹ  rembg not available ({type(e).__name__}) — GrabCut fallback active",
+#               flush=True)
 
-_load_rembg()
+# _load_rembg()
 
 
 # GrabCut Method
@@ -49,21 +49,21 @@ def _grabcut(img: Image.Image, bg_color: tuple) -> Image.Image:
 
 # Remgb Method
 def remove_background(img: Image.Image, bg_color=(255, 255, 255)) -> Image.Image:
-    if _REMBG_SESSION is not None:
-        try:
-            dn = open(os.devnull, "w")
-            with contextlib.redirect_stdout(dn), contextlib.redirect_stderr(dn):
-                from rembg import remove as _rem
-                buf = io.BytesIO()
-                img.convert("RGB").save(buf, "PNG")
-                out = _rem(buf.getvalue(), session=_REMBG_SESSION)
-            dn.close()
-            result = Image.open(io.BytesIO(out)).convert("RGBA")
-            bg     = Image.new("RGBA", result.size, bg_color + (255,))
-            bg.paste(result, mask=result.split()[3])
-            return bg.convert("RGB")
-        except Exception:
-            pass
+    # if _REMBG_SESSION is not None:
+    #     try:
+    #         dn = open(os.devnull, "w")
+    #         with contextlib.redirect_stdout(dn), contextlib.redirect_stderr(dn):
+    #             from rembg import remove as _rem
+    #             buf = io.BytesIO()
+    #             img.convert("RGB").save(buf, "PNG")
+    #             out = _rem(buf.getvalue(), session=_REMBG_SESSION)
+    #         dn.close()
+    #         result = Image.open(io.BytesIO(out)).convert("RGBA")
+    #         bg     = Image.new("RGBA", result.size, bg_color + (255,))
+    #         bg.paste(result, mask=result.split()[3])
+    #         return bg.convert("RGB")
+    #     except Exception:
+    #         pass
     print("  [BG] Using GrabCut fallback")
     return _grabcut(img, bg_color)
 
