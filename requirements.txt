@@ -11,4 +11,3 @@ opencv-python>=4.9.0
 numpy>=2.2.6
 pillow>=12.3.0
 rembg>=2.0.69
-onnxruntime
