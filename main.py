@@ -280,6 +280,7 @@ def auto_enhance(img: Image.Image,
     cv2.data.haarcascades,
     "haarcascade_frontalface_default.xml"
 )
+    print(CASCADE_PATH)
     # ── Detect subject face for region-based analysis ────────────────
     face_casc = cv2.CascadeClassifier(CASCADE_PATH)
     if face_casc.empty():
