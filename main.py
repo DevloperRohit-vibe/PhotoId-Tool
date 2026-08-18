@@ -26,33 +26,6 @@ ID_SIZES = {
     "custom":   (35, 45),
 }
 
-CASCE_PATH = os.path.join(cv2.data.haarcascades,"haarcascade_frontalface_default.xml")
-print(CASCE_PATH)
-# ── Detect subject face for region-based analysis ────────────────
-face_casc = cv2.CascadeClassifier(CASCE_PATH)
-
-
-# ════════════════════════════════════════════════════════════════════
-#  rembg — load once at startup, silently
-# ════════════════════════════════════════════════════════════════════
-# _REMBG_SESSION = None
-
-# def _load_rembg():
-#     global _REMBG_SESSION
-#     try:
-#         dn = open(os.devnull, "w")
-#         with contextlib.redirect_stdout(dn), contextlib.redirect_stderr(dn):
-#             from rembg import new_session
-#             _REMBG_SESSION = new_session("u2net")
-#         dn.close()
-#         print("✓  rembg ready (AI background removal active)", flush=True)
-#     except Exception as e:
-#         print(f"ℹ  rembg not available ({type(e).__name__}) — GrabCut fallback active",
-#               flush=True)
-
-# _load_rembg()
-
-
 # ════════════════════════════════════════════════════════════════════
 #  HELPERS
 # ════════════════════════════════════════════════════════════════════
