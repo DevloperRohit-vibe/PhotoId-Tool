@@ -584,7 +584,6 @@ def process_image():
         auto_rotate = data.get("auto_rotate", True)
         manual_crop = data.get("manual_crop", None)
 
-        print(image_data)
         if not image_data:
             return jsonify({"error": "No image provided"}), 400
 

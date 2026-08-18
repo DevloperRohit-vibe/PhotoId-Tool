@@ -7,21 +7,28 @@ import numpy as np
 
 # Rembg Session
 _REMBG_SESSION = None
+_REMBG_INITIALIZED = False
 
 def _load_rembg():
-    global _REMBG_SESSION
+    global _REMBG_SESSION, _REMBG_INITIALIZED
+
+    if _REMBG_INITIALIZED:
+        return
+
     try:
         dn = open(os.devnull, "w")
         with contextlib.redirect_stdout(dn), contextlib.redirect_stderr(dn):
             from rembg import new_session
             _REMBG_SESSION = new_session("u2net")
         dn.close()
+        _REMBG_INITIALIZED = True
         print("✓  rembg ready (AI background removal active)", flush=True)
+
     except Exception as e:
-        print(f"i  rembg not available ({type(e).__name__}) — GrabCut fallback active",
+        print(f"ℹ  rembg not available ({type(e).__name__}) — GrabCut fallback active",
               flush=True)
 
-_load_rembg()
+
 
 
 # GrabCut Method
@@ -49,6 +56,7 @@ def _grabcut(img: Image.Image, bg_color: tuple) -> Image.Image:
 
 # Remgb Method
 def remove_background(img: Image.Image, bg_color=(255, 255, 255)) -> Image.Image:
+    _load_rembg()
     if _REMBG_SESSION is not None:
         try:
             dn = open(os.devnull, "w")
