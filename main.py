@@ -281,10 +281,10 @@ def auto_enhance(img: Image.Image,
     ih, iw = cv_img.shape[:2]
     gray   = cv2.cvtColor(cv_img, cv2.COLOR_RGB2GRAY)
 
-    # CASCE_PATH = os.path.join(cv2.data.haarcascades,"haarcascade_frontalface_default.xml")
-    # print(CASCE_PATH)
-    # # ── Detect subject face for region-based analysis ────────────────
-    # face_casc = cv2.CascadeClassifier(CASCE_PATH)
+    CASCE_PATH = os.path.join(cv2.data.haarcascades,"haarcascade_frontalface_default.xml")
+    print(CASCE_PATH)
+    # ── Detect subject face for region-based analysis ────────────────
+    face_casc = cv2.CascadeClassifier(CASCE_PATH)
     if face_casc.empty():
         raise RuntimeError(
             f"Failed to load Haar Cascade from: {CASCE_PATH}"
@@ -611,6 +611,7 @@ def process_image():
         auto_rotate = data.get("auto_rotate", True)
         manual_crop = data.get("manual_crop", None)
 
+        print(image_data)
         if not image_data:
             return jsonify({"error": "No image provided"}), 400
 
