@@ -46,7 +46,7 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024 * 1024
 
 @app.route("/")
 def index():
-    return jsonify({"error": "1"}), 500
+    return jsonify({"error": "2"}), 500
 
 
 @app.route("/app/api/process", methods=["POST"])
